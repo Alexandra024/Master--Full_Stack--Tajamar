@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Page 2</title>
+</head>
+<body onload="cargarCheckBox()">
+    
+    <h1>Welcome</h1>
+	<p>This is a basic HTML page.</p>
+
+    <form id="formulario1" name=""  action="" method="post">
+        <input type="checkbox" />Uno<br />
+        <input type="checkbox" />Dos<br />
+        <input type="checkbox" />Tres<br />
+        <input type="checkbox" />Cuatro<br />
+
+        <textarea name="" id=""></textarea>
+        
+        <input type="password">
+        <input type="file">
+        <input type="hidden">
+        
+    </form>
+    <input type="button" value="Ver Marcados" onclick="verMarcados()"/>
+</body>
+</html>
+<script>
+    function cargarCheckBox() {
+        for (let contador = 0; contador < formulario1.elements.length; contador++) {
+            formulario1.elements[contador].checked = false;
+        }
+    }
+
+    function verMarcados() {
+        let verMarcados = 0;
+        for (let contador = 0; contador < formulario1.elements.length; contador++) {
+            //Checked
+            if (formulario1.elements[contador].type == "checkbox" && formulario1.elements[contador].checked == true) {
+                verMarcados++;
+            }
+        }
+        alert(`Se han seleccionado ${verMarcados} cajas`)
+    }
+</script>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <form id="frm1" action="">
+        <!-- Edad: <input type="text" name="txtEdad" />
+        <input type="button" value="Comprobar Edad" onclick="comprobacionEdad()"/> -->
+        
+        <input type="radio" name="forma_envio" id="" value="Correos"/> Correos
+        <input type="radio" name="forma_envio" id="" value="Mensajero"/> Mensajero
+        <input type="radio" name="forma_envio" id="" value="Personal"/> Personal
+        <input type="radio" name="forma_envio" id="" value="Avion"/> Avion
+
+        <input type="button" value="mostrar valor seleccionado" onclick="muestraValor(this.form)"/> 
+    </form>
+</body>
+</html>
+
+<script>
+   function comprobacionEdad() {
+        frm1.txtEdad.value >= 18 ? alert('eres mayor') : alert ('eres menor') 
+    }
+
+    function muestraValor(form) {
+        let seleccionado = document.forms["frm1"].querySelector('input[name="forma_envio"]:checked');
+        document.forms["frm1"].value = seleccionado ? seleccionado.value : "";
+
+        alert(document.forms["frm1"].value);
+    }
+</script>
