@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"> <!--Nota del alumno; quiero poder hacerlo en ingles aunque lo escrito sea en español -->
+<head>
+    <meta charset="UTF-8">
+    <title>LAB 7 - Sensores IoT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-dark text-light min-vh-100 p-4">
+
+    <div class="container" style="max-width: 600px;">
+        <h1 class="h3 mb-4 text-center">Panel de Control de Telemetría</h1>
+        <div id="sensorContainer"></div>
+    </div>
+
+    <script>
+        const sensors = [
+            { id: "s-101", type: "Temperatura Caldera", value: "92 °C", status: "Critico" },
+            { id: "s-102", type: "Presión Hidráulica", value: "2.1 Bar", status: "Normal" },
+            { id: "s-103", type: "Nivel de Refrigerante", value: "15 %", status: "Atencion" },
+            { id: "s-104", type: "Flujo de Aire", value: "120 L/min", status: "Normal" }
+        ];
+
+        const sensorContainer = document.querySelector("#sensorContainer");
+
+        // 1: Implement renderSensors(sensorList)
+        // Hint: Use Bootstrap badges for status (bg-danger, bg-warning, bg-success)
+        function getBadgeClass(status) {
+            switch (status) {
+
+                case "Critico":
+                    return "bg-danger";
+
+                case "Atencion":
+                    return "bg-warning";
+
+                case "Normal":
+                    return "bg-success";
+
+                default:
+                    return "bg-secondary";
+            }
+        }
+
+        // 2: Implement event handling to remove/deactivate the card when the button is clicked
+
+        function renderSensors(sensorList) {
+
+            const html = sensorList
+                .map(sensor => `
+                    <div class="card mb-3 text-dark" data-id="${sensor.id}">
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <h5 class="card-title mb-0">
+                                    ${sensor.type}
+                                </h5>
+
+                                <span class="badge ${getBadgeClass(sensor.status)}">
+                                    ${sensor.status}
+                                </span>
+
+                            </div>
+
+                            <p class="card-text mt-3">
+                                ${sensor.value}
+                            </p>
+
+                            <button
+                                class="btn btn-danger deactivate-btn"
+                                data-id="${sensor.id}">
+                                Desactivar
+                            </button>
+
+                        </div>
+                    </div>
+                `)
+                .join("");
+
+            sensorContainer.innerHTML = html;
+        }
+
+        // SHOW
+        renderSensors(sensors);
+
+        // LISTENER
+        sensorContainer.addEventListener("click", (event) => {
+
+            if (event.target.classList.contains("deactivate-btn")) {
+
+                const sensorId = event.target.dataset.id;
+
+                const sensorCard =
+                    document.querySelector(
+                        `[data-id="${sensorId}"]`
+                    );
+
+                sensorCard.remove();
+            }
+        });
+
+    </script>
+
+</body>
+</html>
