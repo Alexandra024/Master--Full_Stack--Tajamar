@@ -3,9 +3,10 @@ import { FormsModule, NgForm, NgModel, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Model } from '../data/repository.model';
 import { Product } from '../data/product.model';
+import { PaAttrDirective } from '../directives/attr.directive';
 
 @Component({
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PaAttrDirective],
   selector: 'app-product',
   styleUrl: './product.css',
   templateUrl: './product.html',

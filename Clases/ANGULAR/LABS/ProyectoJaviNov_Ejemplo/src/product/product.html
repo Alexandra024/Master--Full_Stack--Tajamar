@@ -191,11 +191,10 @@
   <button class="btn btn-primary" (click)="addProduct(newProduct)">Add Product</button>
 </div> -->
 
-<div class="text-dark m-2">
-  <div class="bg-info text-white mb-2 p-2">
-    Model data: {{ jsonProduct ? jsonProduct : 'No data' }}
-  </div>
-  <form #form="ngForm" novalidate (ngSubmit)="submitForm(form)">
+<div class="container-fluid">
+  <div class="row p-2">
+    <div class="col-6">
+        <form #form="ngForm" novalidate (ngSubmit)="submitForm(form)">
     @if (formSubmitted && form.invalid) {
       <div class="bg-danger text-white p-2 md-2">
         <ul>
@@ -270,6 +269,31 @@
     </button>
     <!-- <input class="btn btn-primary" type="submit" value="Add Product" /> -->
   </form>
+    </div>
+    <div class="col-6">
+      <table class="table table-bordered tabele-striped">
+        <thead>
+          <tr><th></th><th>Name</th><th>Category</th><th>Price</th></tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of getProducts(); 
+              let i = index" [pa-attr]="getProducts().length < 6 ? 'table-success' : 'bg-warning' ">
+                <td>{{i + 1}}</td>
+                <td pa-attr>{{item.name}}</td>
+                <td pa-attr pa-attr-class="bg-warning">{{item.category}}</td>
+                <td pa-attr pa-attr-class="bg-info">${{item.price}}</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="text-dark m-2">
+  <div class="bg-info text-white mb-2 p-2">
+    Model data: {{ jsonProduct ? jsonProduct : 'No data' }}
+  </div>
+
 </div>
 
 <!-- 

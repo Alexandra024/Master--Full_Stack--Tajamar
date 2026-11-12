@@ -21,7 +21,7 @@ export class Model {
   }
 
   saveProduct(product: Product): void {
-    if (product.id === 0 || product.id === null) {
+    if (product.id === 0 || product.id === null || product.id === undefined) {
       product.id = this.generateId();
       this.products.push(product);
     } else {
