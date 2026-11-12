@@ -119,7 +119,7 @@
 
 <ng-template [ngTemplateOutlet]="titleTemplate" [ngTemplateOutletContext]="{ title: 'Footer' }"></ng-template> -->
 
-<div class="text-white m-2">
+<!-- <div class="text-white m-2">
   <div class="bg-info text-white p-2">Selected product: {{ selectedProduct || 'None' }}</div>
 
   <table class="table table-sm table-bordered mt-1 text-dark">
@@ -143,7 +143,7 @@
     </tbody>
   </table>
 
-  <!-- <div class="form-group">
+  <div class="form-group">
     <label class="form-control">Product Name</label>
     <input
       class="form-control"
@@ -160,7 +160,7 @@
       (input)="selectedProduct = $any($event.target).value"
       [value]="selectedProduct ?? ''"
     />
-  </div> -->
+  </div>
 
   <div class="form-group">
     <input
@@ -170,7 +170,7 @@
       [(ngModel)]="selectedProduct"
     />
   </div>
-</div>
+</div> -->
 
 <!-- <div class="text-dark m-2">
   <div class="bg-info text-white mb-2 p-2">
@@ -191,10 +191,11 @@
   <button class="btn btn-primary" (click)="addProduct(newProduct)">Add Product</button>
 </div> -->
 
-<div class="container-fluid">
-  <div class="row p-2">
-    <div class="col-6">
-        <form #form="ngForm" novalidate (ngSubmit)="submitForm(form)">
+<!-- <div class="text-dark m-2">
+  <div class="bg-info text-white mb-2 p-2">
+    Model data: {{ jsonProduct ? jsonProduct : 'No data' }}
+  </div>
+  <form #form="ngForm" novalidate (ngSubmit)="submitForm(form)">
     @if (formSubmitted && form.invalid) {
       <div class="bg-danger text-white p-2 md-2">
         <ul>
@@ -267,33 +268,120 @@
     >
       Add Product
     </button>
-    <!-- <input class="btn btn-primary" type="submit" value="Add Product" /> -->
+    <input class="btn btn-primary" type="submit" value="Add Product" />
   </form>
+</div> -->
+
+<div class="container-fluid">
+  <div class="row p-2">
+    <div class="col-6">
+      <form #form="ngForm" novalidate (ngSubmit)="submitForm(form)">
+        @if (formSubmitted && form.invalid) {
+          <div class="bg-danger text-white p-2 md-2">
+            <ul>
+              @for (message of getFormValidationMessages(form); track message) {
+                <li>{{ message }}</li>
+              }
+            </ul>
+          </div>
+        }
+        <div class="form-group">
+          <label>Product Name</label>
+          <input
+            class="form-control"
+            name="name"
+            #name="ngModel"
+            required
+            minlength="5"
+            pattern="^[A-Za-z ]+$"
+            [(ngModel)]="newProduct.name"
+          />
+          @if (formSubmitted && name.invalid && (name.dirty || name.touched)) {
+            <ul class="text-danger list-unstyled mt-1">
+              @for (e of getValidationMessages(name); track e) {
+                <li>{{ e }}</li>
+              }
+            </ul>
+          }
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <input
+            class="form-control"
+            name="category"
+            #category="ngModel"
+            required
+            [(ngModel)]="newProduct.category"
+          />
+          @if (formSubmitted && category.invalid && (category.dirty || category.touched)) {
+            <ul class="text-danger list-unstyled mt-1">
+              @for (e of getValidationMessages(category); track e) {
+                <li>{{ e }}</li>
+              }
+            </ul>
+          }
+        </div>
+        <div class="form-group">
+          <label>Price</label>
+          <input
+            class="form-control"
+            name="price"
+            #price="ngModel"
+            required
+            type="number"
+            [(ngModel)]="newProduct.price"
+          />
+          @if (formSubmitted && price.invalid && (price.dirty || price.touched)) {
+            <ul class="text-danger list-unstyled mt-1">
+              @for (e of getValidationMessages(price); track e) {
+                <li>{{ e }}</li>
+              }
+            </ul>
+          }
+        </div>
+
+        <button
+          class="btn btn-primary mt-2"
+          type="submit"
+          [disabled]="formSubmitted && !form.valid"
+          [class.btn-secondary]="formSubmitted && !form.valid"
+        >
+          Add Product
+        </button>
+        <!-- <input class="btn btn-primary" type="submit" value="Add Product" /> -->
+      </form>
     </div>
     <div class="col-6">
-      <table class="table table-bordered tabele-striped">
+      <table class="table table-bordered table-striped">
         <thead>
-          <tr><th></th><th>Name</th><th>Category</th><th>Price</th></tr>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+          </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of getProducts(); 
-              let i = index" [pa-attr]="getProducts().length < 6 ? 'table-success' : 'bg-warning' ">
-                <td>{{i + 1}}</td>
-                <td pa-attr>{{item.name}}</td>
-                <td pa-attr pa-attr-class="bg-warning">{{item.category}}</td>
-                <td pa-attr pa-attr-class="bg-info">${{item.price}}</td>
+          @for (
+            product of getProducts();
+            track product.id;
+            let i = $index, even = $even, odd = $odd
+          ) {
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td pa-attr>{{ product.name }}</td>
+              <td [pa-attr]="product.category == 'Soccer' ? 'table-info' : null">
+                {{ product.category }}
+              </td>
+              <td pa-attr pa-attr-class="bg-info">
+                {{ product.price | currency }}
+              </td>
             </tr>
+          }
         </tbody>
       </table>
     </div>
   </div>
-</div>
-
-<div class="text-dark m-2">
-  <div class="bg-info text-white mb-2 p-2">
-    Model data: {{ jsonProduct ? jsonProduct : 'No data' }}
-  </div>
-
 </div>
 
 <!-- 
