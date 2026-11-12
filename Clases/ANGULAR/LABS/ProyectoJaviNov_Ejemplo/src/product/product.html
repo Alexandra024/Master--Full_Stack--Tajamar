@@ -1,0 +1,312 @@
+<!-- <div
+  [ngClass]="getClasses()"
+  [textContent]="'Name: ' + (model.getProductById(1)?.name || 'None')"
+></div> -->
+
+<!-- <div [ngClass]="getClasses()">Name: {{ model.getProductById(1)?.name || 'None' }}</div> -->
+
+<!-- <div class="text-black m-2">
+  <div [ngClass]="getClasses(1)">
+    The first product is: {{ model.getProductById(1)?.name || 'None' }}
+  </div>
+  <div [ngClass]="getClasses(2)">
+    The second product is: {{ model.getProductById(2)?.name || 'None' }}
+  </div>
+</div> -->
+
+<!-- <div class="text-white m-2">
+  <div [class]="getClasses(1)">The first product is: {{ model.getProductById(1)?.name || 'None' }}</div>
+  <div
+    class="p-2"
+    [class.bg-success]="model.getProductById(2)?.price! < 50"
+    [class.bg-info]="model.getProductById(2)?.price! >= 50"
+  >
+    The second product is: {{ model.getProductById(2)?.name || 'None' }}
+  </div>
+</div> -->
+
+<!-- <div class="text-white m-2">
+  <div class="p-2" [ngClass]="getClassesMap(1)">
+    The first product is: {{ model.getProductById(1)?.name || 'None' }}
+  </div>
+  <div class="p-2" [ngClass]="getClassesMap(2)">
+    The second product is: {{ model.getProductById(2)?.name || 'None' }}
+  </div>
+  <div
+    class="p-2"
+    [ngClass]="{
+      'bg-success': model.getProductById(3)?.price! < 50,
+      'bg-info': model.getProductById(3)?.price! >= 50,
+    }"
+  >
+    The third product is: {{ model.getProductById(3)?.name || 'None' }}
+  </div>
+</div> -->
+
+<!-- <div class="text-white m-2">
+  <div class="p-2 bg-warning">
+    The <span [style.font-size]="fontSizeWithUnits">first</span> product is:
+    {{ model.getProductById(1)?.name || 'None' }}
+  </div>
+  <div class="p-2 bg-info">
+    The <span [style.font-size.px]="fontSizeWithoutUnits">second</span> product is:
+    {{ model.getProductById(2)?.name || 'None' }}
+  </div>
+</div> -->
+
+<!-- <div class="text-white m-2">
+  <div class="p-2 bg-warning">
+    The <span [ngStyle]="getStyles(1)">first</span> product is:
+    {{ model.getProductById(1)?.name || 'None' }}
+  </div>
+  <div class="p-2 bg-info">
+    The <span [ngStyle]="getStyles(2)">second</span> product is:
+    {{ model.getProductById(2)?.name || 'None' }}
+  </div>
+</div> -->
+
+<!-- <div class="text-white m-2">
+  <div class="p-2 bg-info">There are {{ getProductCount() }} products.</div>
+
+  @if (getProductCount() > 4) {
+    <div class="bg-info p-2">There are more than 4 products.</div>
+  }
+
+  @if (getProductByPosition(0)!.name !== 'Kayak') {
+    <div class="bg-info p-2">The first product is not a Kayak.</div>
+  }
+
+  @switch (getProductCount()) {
+    @case (2) {
+      <div class="bg-info p-2">There are two products.</div>
+    }
+    @case (5) {
+      <div class="bg-info p-2">There is five products.</div>
+    }
+    @default {
+      <div class="bg-info p-2">Bottom text.</div>
+    }
+  }
+
+  <table class="table table-sm table-bordered mt-1 text-dark">
+    <tr>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Price</th>
+    </tr>
+    @for (
+      product of getProducts();
+      track product.id;
+      let i = $index, even = $even, odd = $odd, first = $first, last = $last, count = $count
+    ) {
+      <tr>
+        <td [class.bg-warning]="first || last">{{ i + 1 }} of {{ count }}</td>
+        <td [class.bg-primary]="even" [class.bg-info]="odd">{{ product.name }}</td>
+        <td [class.bg-primary]="even" [class.bg-info]="odd">{{ product.category }}</td>
+        <td [class.bg-primary]="even" [class.bg-info]="odd">{{ product.price | currency }}</td>
+      </tr>
+    }
+  </table>
+</div> -->
+
+<!-- <ng-template #titleTemplate let-text="title">
+  <h4 class="bg-success text-white p-2">{{ text }}</h4>
+</ng-template>
+
+<ng-template [ngTemplateOutlet]="titleTemplate" [ngTemplateOutletContext]="{ title: 'Header' }"></ng-template>
+
+<div class="bg-info p-2">There are {{ getProductCount() }} products.</div>
+
+<ng-template [ngTemplateOutlet]="titleTemplate" [ngTemplateOutletContext]="{ title: 'Footer' }"></ng-template> -->
+
+<div class="text-white m-2">
+  <div class="bg-info text-white p-2">Selected product: {{ selectedProduct || 'None' }}</div>
+
+  <table class="table table-sm table-bordered mt-1 text-dark">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of getProducts(); track product.id; let i = $index, even = $even, odd = $odd) {
+        <tr (mouseover)="selectedProduct = product.name">
+          <td [class.bg-secondary]="getSelected(product)">{{ i + 1 }}</td>
+          <td [class.bg-primary]="even" [class.bg-info]="odd">{{ product.name }}</td>
+          <td [class.bg-primary]="even" [class.bg-info]="odd">{{ product.category }}</td>
+          <td [class.bg-primary]="even" [class.bg-info]="odd">{{ product.price | currency }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <!-- <div class="form-group">
+    <label class="form-control">Product Name</label>
+    <input
+      class="form-control"
+      placeholder="Enter product name"
+      (input)="selectedProduct = $any($event.target).value"
+      [value]="selectedProduct ?? ''"
+    />">
+  </div>
+
+  <div class="form-group">
+    <input
+      class="form-control"
+      placeholder="Enter product name"
+      (input)="selectedProduct = $any($event.target).value"
+      [value]="selectedProduct ?? ''"
+    />
+  </div> -->
+
+  <div class="form-group">
+    <input
+      class="form-control"
+      name="selectedProduct"
+      placeholder="Enter product name"
+      [(ngModel)]="selectedProduct"
+    />
+  </div>
+</div>
+
+<!-- <div class="text-dark m-2">
+  <div class="bg-info text-white mb-2 p-2">
+    Model data: {{ jsonProduct ? jsonProduct : 'No data' }}
+  </div>
+  <div class="form-group">
+    <label>Product Name</label>
+    <input class="form-control" [(ngModel)]="newProduct.name" />
+  </div>
+  <div class="form-group">
+    <label>Category</label>
+    <input class="form-control" [(ngModel)]="newProduct.category" />
+  </div>
+  <div class="form-group">
+    <label>Price</label>
+    <input class="form-control" [(ngModel)]="newProduct.price" />
+  </div>
+  <button class="btn btn-primary" (click)="addProduct(newProduct)">Add Product</button>
+</div> -->
+
+<div class="text-dark m-2">
+  <div class="bg-info text-white mb-2 p-2">
+    Model data: {{ jsonProduct ? jsonProduct : 'No data' }}
+  </div>
+  <form #form="ngForm" novalidate (ngSubmit)="submitForm(form)">
+    @if (formSubmitted && form.invalid) {
+      <div class="bg-danger text-white p-2 md-2">
+        <ul>
+          @for (message of getFormValidationMessages(form); track message) {
+            <li>{{ message }}</li>
+          }
+        </ul>
+      </div>
+    }
+    <div class="form-group">
+      <label>Product Name</label>
+      <input
+        class="form-control"
+        name="name"
+        #name="ngModel"
+        required
+        minlength="5"
+        pattern="^[A-Za-z ]+$"
+        [(ngModel)]="newProduct.name"
+      />
+      @if (formSubmitted && name.invalid && (name.dirty || name.touched)) {
+        <ul class="text-danger list-unstyled mt-1">
+          @for (e of getValidationMessages(name); track e) {
+            <li>{{ e }}</li>
+          }
+        </ul>
+      }
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <input
+        class="form-control"
+        name="category"
+        #category="ngModel"
+        required
+        [(ngModel)]="newProduct.category"
+      />
+      @if (formSubmitted && category.invalid && (category.dirty || category.touched)) {
+        <ul class="text-danger list-unstyled mt-1">
+          @for (e of getValidationMessages(category); track e) {
+            <li>{{ e }}</li>
+          }
+        </ul>
+      }
+    </div>
+    <div class="form-group">
+      <label>Price</label>
+      <input
+        class="form-control"
+        name="price"
+        #price="ngModel"
+        required
+        type="number"
+        [(ngModel)]="newProduct.price"
+      />
+      @if (formSubmitted && price.invalid && (price.dirty || price.touched)) {
+        <ul class="text-danger list-unstyled mt-1">
+          @for (e of getValidationMessages(price); track e) {
+            <li>{{ e }}</li>
+          }
+        </ul>
+      }
+    </div>
+
+    <button
+      class="btn btn-primary mt-2"
+      type="submit"
+      [disabled]="formSubmitted && !form.valid"
+      [class.btn-secondary]="formSubmitted && !form.valid"
+    >
+      Add Product
+    </button>
+    <!-- <input class="btn btn-primary" type="submit" value="Add Product" /> -->
+  </form>
+</div>
+
+<!-- 
+Directivas:
+  - ngClass => Agrega clases CSS a un elemento HTML
+    Sintaxis: <div [ngClass]="classExpression"></div>
+    Puede recibir una cadena, un arreglo de clases o un objeto con clases y condiciones.
+  - ngStyle => Agrega estilos CSS a un elemento HTML
+    Sintaxis: <div [ngStyle]="styleExpression"></div>
+    Puede recibir un objeto con nombres de propiedades CSS y sus valores.
+  - @if => Renderiza contenido HTML si la condición es verdadera
+    Sintaxis: @if (condition) { ... } @else if (otherCondition) { ... } @else { ... }
+  - @for => Renderiza contenido HTML por cada elemento de un arreglo
+    Sintaxis: @for (item of items; track item.id; let i = $index, first = $first, last = $last, even = $even, odd = $odd) { ... }
+    Variables contextuales: $index, $first, $last, $even, $odd y $count
+  - @switch => Renderiza contenido HTML dependiendo del valor de una expresión
+    Sintaxis: @switch (expression) { @case (value) { ... } @default { ... } }
+  - ng-template => Define una plantilla de contenido HTML que puede ser reutilizada
+    Sintaxis: <ng-template #templateName> ... </ng-template>
+  - ngTemplateOutlet => Inserta una plantilla de contenido HTML en un lugar específico
+    Sintaxis: <ng-template [ngTemplateOutlet]="templateName"></ng-template>
+  - ngTemplateOutletContext => Pasa datos a una plantilla de contenido HTML
+    Sintaxis: <ng-template [ngTemplateOutlet]="templateName" [ngTemplateOutletContext]="{ key: value }"></ng-template>
+  - Event binding => Ejecuta una expresión o método cuando ocurre un evento del DOM
+    Sintaxis: <button (click)="method()"></button>
+    También puede asignar un valor directamente:
+    <input (input)="value = $event.target.value" />
+    $event contiene el objeto del evento emitido por el elemento.
+    Eventos habituales: (click), (dblclick), (mouseover), (mouseout),
+    (mousedown), (mouseup), (input), (change), (focus), (blur), (submit) y (keyup).
+    Eventos de teclado específicos:
+    <input (keyup.enter)="submit()" />
+    <input (keydown.escape)="cancel()" />
+    Se pueden combinar teclas modificadoras:
+    <input (keydown.control.enter)="submit()" />
+
+  <div [class]="expression"></div> => Agrega una clase CSS a un elemento HTML si la expresión es verdadera
+  <div [class.myClass]="expression"></div> => Agrega la clase CSS "myClass" a un elemento HTML si la expresión es verdadera
+  <div [ngClass]="map"></div> => Agrega clases CSS a un elemento HTML según el objeto map
+ -->

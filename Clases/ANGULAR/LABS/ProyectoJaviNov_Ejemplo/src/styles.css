@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+form.ng-submitted input.ng-invalid {
+  border: 2px solid red;
+}
+
+form.ng-submitted input.ng-valid {
+  border: 2px solid green;
+}
