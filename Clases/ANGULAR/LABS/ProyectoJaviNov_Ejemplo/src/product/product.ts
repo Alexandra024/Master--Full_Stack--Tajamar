@@ -1,18 +1,34 @@
-import { ApplicationRef, Component } from '@angular/core';
-import { FormsModule, NgForm, NgModel, ValidationErrors } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Model } from '../data/repository.model';
-import { Product } from '../data/product.model';
-import { PaAttrDirective } from '../directives/attr.directive';
+import { Component } from '@angular/core';​
+import { RouterOutlet } from '@angular/router';​
+import { CommonModule } from '@angular/common';​
+import { FormsModule, NgForm, NgModel, ValidationErrors } from '@angular/forms';​
 
-@Component({
-  imports: [CommonModule, FormsModule, PaAttrDirective],
-  selector: 'app-product',
-  styleUrl: './product.css',
-  templateUrl: './product.html',
-})
+import { Model } from './repository.model';​
+import { Product } from './product.model';​
+import { PaAttrDirective } from '../directives/attr.directive';​
+import { PaModel } from '../directives/twoway.directive';​
+import { PaStructureDirective } from '../directives/structure.directive';​
+import { PaIteratorDirective } from '../directives/iterator.directive';​
+import { PaCellColor } from '../directives/cellColor.directive';​
+import { PaCellColorSwitcher } from '../directives/cellColorSwitcher.directive';​
+import { ProductTableComponent } from './product-table/product-table.component';​
+import { ProductFormComponent } from './product-form/product-form.component';​
+
+@Component({​
+  selector: 'app-product',​
+  standalone: true,​
+  imports: [RouterOutlet, CommonModule, FormsModule,​
+    PaAttrDirective, PaModel, PaStructureDirective,​
+    PaIteratorDirective, PaCellColor, PaCellColorSwitcher,​
+    ProductTableComponent, ProductFormComponent],​
+  templateUrl: './product.component.html',​
+  styleUrl: './product.component.css'​
+})​
+
+
 export class ProductComponent {
   model: Model = new Model();
+  showTable: boolean = false;
 
   // targetName: string = 'Kayak';
 
@@ -104,6 +120,9 @@ export class ProductComponent {
     return messages;
   }
 
+  deleteProduct(key: number){
+    this.model.deleteProduct(key);
+  }
   // getProductCount(): number {
   //   return this.model.getProducts().length;
   // }

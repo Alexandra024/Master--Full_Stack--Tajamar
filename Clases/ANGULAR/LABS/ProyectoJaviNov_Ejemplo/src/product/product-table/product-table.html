@@ -1,0 +1,29 @@
+<div class="bg-info p-2">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *paFor="let item of getProducts(); let i=index; let odd=odd; let even=even">
+        <td>{{ i + 1 }}</td>
+        <td [class.bg-info]="odd" [class.bg-warning]="even">{{ item.name }}</td>
+        <td>{{ item.category }}</td>
+        <td>${{ item.price }}</td>
+        <td class="text-center">
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="item.id != null && deleteProduct(item.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

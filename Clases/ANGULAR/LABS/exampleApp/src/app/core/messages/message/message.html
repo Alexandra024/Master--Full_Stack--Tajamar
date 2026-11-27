@@ -1,0 +1,9 @@
+<!-- @if (lastMessage(); as message) {
+<div class="bg-info text-white p-2 text-center"
+    [class.bg-danger]="message.error">
+    <h4>{{ message.text }}</h4>
+</div>
+} -->
+<div class="bg-info text-white p-2 text-center" [class.bg-danger]="lastMessage()?.error" style="min-height: 3rem">
+	<h4>{{ lastMessage()?.text ?? '' }}</h4>
+</div>

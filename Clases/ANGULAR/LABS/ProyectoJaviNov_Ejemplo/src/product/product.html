@@ -352,37 +352,119 @@
       </form>
     </div>
     <div class="col-6">
-      <table class="table table-bordered table-striped">
+      <!-- <div class="col">
+        <div class="form-group bg-info text-white p-2">
+          <label>Name</label>
+          <input
+            class="bg-primary text-white form-control"
+            [paModel]="newProduct.name"
+            (paModelChange)="newProduct.name = $event"
+          />
+        </div>
+      </div> -->
+      <div class="form-check m-2">
+        <input type="checkbox" class="form-check-input" [(ngModel)]="showTable" />
+        <label class="form-check-label">Show Table</label>
+      </div>
+      <!-- <ng-template [paIf]="showTable">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (
+              product of getProducts();
+              track product.id;
+              let i = $index, even = $even, odd = $odd
+            ) {
+              <tr
+                [pa-attr]="getProducts().length < 6 ? 'table-success' : 'bg-danger'"
+                [pa-product]="product"
+                (pa-category)="newProduct.category = $event"
+              >
+                <td>{{ i + 1 }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category }}</td>
+                <td>
+                  {{ product.price | currency }}
+                </td>
+              </tr>
+            }
+
+            <ng-template
+              [paForOf]="getProducts()"
+              let-item
+              let-i="index"
+              let-odd="odd"
+              let-even="even"
+            >
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td [class.bg-info]="odd" [class.bg-warning]="even">{{ item.name }}</td>
+                <td>{{ item.category }}</td>
+                <td>${{ item.price }}</td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </ng-template> -->
+      <table *paIf="showTable" class="table table-bordered table-striped">
         <thead>
           <tr>
             <th></th>
             <th>Name</th>
             <th>Category</th>
             <th>Price</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          @for (
-            product of getProducts();
-            track product.id;
-            let i = $index, even = $even, odd = $odd
-          ) {
-            <tr>
-              <td>{{ i + 1 }}</td>
-              <td pa-attr>{{ product.name }}</td>
-              <td [pa-attr]="product.category == 'Soccer' ? 'table-info' : null">
-                {{ product.category }}
-              </td>
-              <td pa-attr pa-attr-class="bg-info">
-                {{ product.price | currency }}
-              </td>
-            </tr>
-          }
+          <tr *paFor="let item of getProducts(); let i = index; let odd = odd; let even = even">
+            <td>{{ i + 1 }}</td>
+            <td [class.bg-info]="odd" [class.bg-warning]="even">{{ item.name }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.price }}</td>
+            <td class="text-center">
+              <button (click)="deleteProduct(item.id)" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+
+<div class="container-fluid">
+    <div class="row p-2">
+        <div class="col-4 p-2 bg-success text-white">
+            Form will go here
+        </div>
+        <div class="col p-2 bg-primary text-white">
+            Table will go here
+        </div>
+    </div>
+</div>
+
+<!-- Clase 18-11-26 -->
+<div class="container-fluid">
+  <div class="row p-2">
+    <div class="col-4 p-2 bg-success text-white">
+      <app-product-form></app-product-form>
+    </div>
+    <div class="col p-2 bg-primary text-white">
+      <app-product-table></app-product-table>
+    </div>
+  </div>
+</div>
+
+
+
+
 
 <!-- 
 Directivas:
@@ -422,3 +504,4 @@ Directivas:
   <div [class.myClass]="expression"></div> => Agrega la clase CSS "myClass" a un elemento HTML si la expresión es verdadera
   <div [ngClass]="map"></div> => Agrega clases CSS a un elemento HTML según el objeto map
  -->
+ 

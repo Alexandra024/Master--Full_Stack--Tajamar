@@ -1,0 +1,151 @@
+<form [formGroup]="productForm"  (ngSubmit)="submitForm()" (reset)="resetForm()">
+
+	<div class="form-group">
+
+		<label>Name</label>
+
+		<input class="form-control" formControlName="name" />
+
+		<ul class="text-danger list-unstyled mt-1">
+
+			<li *validationErrors="productForm; control:'name'; let err">
+
+				{{ err }}
+
+			</li>
+
+		</ul>
+
+
+
+	</div>
+
+
+
+	<div class="form-group">
+
+		<label>Category</label>
+
+		<input class="form-control" formControlName="category" />
+
+		<ul class="text-danger list-unstyled mt-1">
+
+			<li *validationErrors="productForm; control:'category'; let err">
+
+				{{ err }}
+
+			</li>
+
+		</ul>
+
+
+
+
+
+	</div>
+
+	<div class="form-group">
+
+		<label>Price</label>
+
+		<input class="form-control" formControlName="price" />
+
+		<ul class="text-danger list-unstyled mt-1">
+
+			<li *validationErrors="productForm; control:'price'; let err">
+
+				{{ err }}
+
+			</li>
+
+		</ul>
+
+	</div>
+
+	<ng-container formGroupName="details">
+
+		<div class="form-group">
+
+			<label>Supplier</label>
+
+			<input class="form-control" formControlName="supplier" />
+
+			<ul class="text-danger list-unstyled mt-1">
+
+				<li *validationErrors="productForm; control:'details.supplier';
+
+                    label: 'supplier'; let err">
+
+					{{ err }}
+
+				</li>
+
+			</ul>
+
+		</div>
+
+		<div class="form-group">
+
+			<label>Keywords</label>
+
+			<div formArrayName="keywords">
+
+				@for (keywordControl of keywordGroup.controls; track keywordControl; let i = $index) {
+
+				<div class="input-group mb-2">
+
+					<input class="form-control" [formControlName]="i" />
+
+					@if (keywordGroup.length > 1) {
+
+					<button type="button" class="btn btn-outline-danger"  (click)="removeKeyword(i)">
+
+						Remove
+
+					</button>
+
+					}
+
+				</div>
+
+				<ul class="text-danger list-unstyled mt-1">
+
+					<li *validationErrors="productForm;
+
+                            control: 'details.keywords.' + i;
+
+                            label: 'keyword'; let err">
+
+						{{ err }}
+
+					</li>
+
+				</ul>
+
+				}
+
+			</div>
+
+			<button type="button" class="btn btn-outline-primary btn-sm"  (click)="addKeyword()">
+
+				Add Keyword
+
+			</button>
+
+		</div>
+
+	</ng-container>
+
+	<div class="mt-2">
+
+		<button type="submit" class="btn btn-primary"  [class.btn-warning]="editing"  [disabled]="productForm.invalid">
+
+			{{editing ? "Save" : "Create"}}
+
+		</button>
+
+		<button type="reset" class="btn btn-secondary m-1">Cancel</button>
+
+	</div>
+
+</form>
